@@ -1,0 +1,67 @@
+version: "3"
+
+networks:
+  proxy:
+    name: proxy
+
+services:
+  nginx:
+    image: my-nginx:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "2"
+    networks:
+      - proxy
+    ports:
+      - 21:21      
+
+  ftp01:
+    image: my-ftp:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "2"
+    networks:
+      - proxy    
+    environment:
+      - PASV_ADDRESS=172.31.130.70
+    volumes:
+      - home_ftp:/var/ftp
+      - log_ftp:/var/log/ftp
+  
+  ftp02:
+    image: my-ftp:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "2"
+    networks:
+      - proxy    
+    environment:
+      - PASV_ADDRESS=172.31.130.70
+    volumes:
+      - home_ftp:/var/ftp
+      - log_ftp:/var/log/ftp
+
+  ftp03:
+    image: my-ftp:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "2"
+    networks:
+      - proxy    
+    environment:
+      - PASV_ADDRESS=172.31.130.70
+    volumes:
+      - home_ftp:/var/ftp
+      - log_ftp:/var/log/ftp
+
+volumes:
+  home_ftp:
+  log_ftp:
